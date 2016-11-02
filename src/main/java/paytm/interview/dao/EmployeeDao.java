@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface EmployeeDao extends CrudRepository<Employee,Long> {
     List<Employee> findByFirstName(String firstName);
+    Employee findByEmpId(Long empId);
 }

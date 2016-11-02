@@ -3,39 +3,59 @@ package paytm.interview.entity;
 import lombok.Data;
 import paytm.interview.enums.EmpType;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Calendar;
 
 
 /**
  * Created by sriramvcs on 2016-10-31.
  */
 
-@Entity(name="employee")
+@Entity
+@Table(name = "employee")
 @Data
 public class Employee {
 
+    @Column(name = "id")
     @Id
-    @GeneratedValue
-    private  Long id;
-    @Enumerated
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     private EmpType type;
+
+    @Column(name="first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name="emp_id")
     private Long empId;
 
-    public Employee(String firstName, String lastName,EmpType type) {
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_ts")
+    private Calendar createdTimeStamp;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modified_ts")
+    private Calendar modifiedTimeStamp;
+
+    public Employee(String firstName, String lastName, EmpType type, Long empId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.type = type;
+        this.empId = empId;
+        Calendar cal = Calendar.getInstance();
+        this.createdTimeStamp = cal;
+        this.modifiedTimeStamp = cal;
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-                "Customer[firstName='%s', lastName='%s']",
-                firstName, lastName);
+    public Employee() {
+
     }
+
+
+
 }

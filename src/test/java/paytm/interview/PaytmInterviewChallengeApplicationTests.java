@@ -1,9 +1,6 @@
 package paytm.interview;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +73,12 @@ public class PaytmInterviewChallengeApplicationTests {
 		List<Review> resList2 = reviewDao.findByReviewer(reviewer.getId());
 		Assert.assertEquals(resList1.size(),resList2.size());
 
+	}
+
+	@After
+	public void cleanUp() {
+		employeeDao.deleteAll();
+		reviewDao.deleteAll();
 	}
 
 

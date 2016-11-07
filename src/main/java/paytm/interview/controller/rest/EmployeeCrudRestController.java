@@ -1,12 +1,11 @@
 package paytm.interview.controller.rest;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import paytm.interview.dao.EmployeeDao;
+import paytm.interview.domain.EmployeeDO;
 import paytm.interview.entity.Employee;
+import paytm.interview.factory.EmployeeFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,38 +19,35 @@ public class EmployeeCrudRestController {
 
     @Autowired
     private EmployeeDao employeeDao;
+    @Autowired
+    private EmployeeFactory empFactory;
 
     @RequestMapping(value="/list", method = RequestMethod.GET)
-    public List<EmpData> getEmployeeList() {
+    public List<EmployeeDO> getEmployeeList() {
+
         return buildEmpData(employeeDao.findAll());
     }
 
-    @RequestMapping(value="/create", method = RequestMethod.POST)
-    public void createEmployee() {
+    /*@RequestMapping(value="/create", method = RequestMethod.POST)
+    public void createEmployee(@@ModelAttribute EmpData empData) {
 
+    }*/
+
+    @RequestMapping(value="/delete", method = RequestMethod.DELETE)
+    public void deleteEmployee(@RequestParam  Long id) {
+        employeeDao.delete(id);
     }
 
 
 
-    private List<EmpData> buildEmpData(Iterable<Employee> empEntityList) {
+    private List<EmployeeDO> buildEmpData(Iterable<Employee> empEntityList) {
 
-        List<EmpData> empDataList = new ArrayList<>();
+        List<EmployeeDO> empDataList = new ArrayList<>();
         empEntityList.forEach(item->{
-            EmpData data = new EmpData();
-            data.setFirstName(item.getFirstName());
-            data.setLastName(item.getFirstName());
-            data.setEmpId(item.getEmpId());
-            data.setType(item.getType().name());
-            empDataList.add(data);
+            empDataList.add(empFactory.createEmployeeDo(item));
         });
         return empDataList;
     }
 
-    @Data
-    private class EmpData {
-        private String firstName;
-        private String lastName;
-        private Long empId;
-        private String type;
-    }
+
 }

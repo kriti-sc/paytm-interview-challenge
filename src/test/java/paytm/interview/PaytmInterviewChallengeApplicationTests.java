@@ -46,10 +46,10 @@ public class PaytmInterviewChallengeApplicationTests {
 		Assert.assertEquals(employeeDao.findByEmpId(1002l).getFirstName(),"Sriram");
 
 		// delete
-		e = employeeDao.findByEmpId(1002l);
+		/*e = employeeDao.findByEmpId(1002l);
 		employeeDao.delete(e.getId());
 		e = employeeDao.findByEmpId(1002l);
-		Assert.assertEquals(e,null);
+		Assert.assertEquals(e,null);*/
 	}
 
 	@Test
@@ -75,11 +75,11 @@ public class PaytmInterviewChallengeApplicationTests {
 
 	}
 
-	@After
-	public void cleanUp() {
-		employeeDao.deleteAll();
-		reviewDao.deleteAll();
-	}
+//	@After
+//	public void cleanUp() {
+//		employeeDao.deleteAll();
+//		reviewDao.deleteAll();
+//	}
 
 
 

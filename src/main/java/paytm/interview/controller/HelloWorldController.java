@@ -1,16 +1,16 @@
 package paytm.interview.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by sriramvcs on 2016-10-29.
  */
-@RestController
+@Controller
 public class HelloWorldController {
 
-    @RequestMapping("/")
+    @RequestMapping(path="/")
     public String index() {
-        return "Hello world paytm!!";
+        return "main";
     }
 }

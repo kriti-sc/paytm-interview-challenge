@@ -1,14 +1,17 @@
 package paytm.interview.dao;
 
-import org.springframework.data.repository.CrudRepository;
-import paytm.interview.entity.Review;
-
+import paytm.interview.domain.ReviewDO;
 import java.util.List;
 
 /**
  * Created by sriramvcs on 2016-10-31.
  */
-public interface ReviewDao extends CrudRepository<Review,Long> {
-    public List<Review> findByReviewer(Long id);
-    public List<Review> findByReviewee(Long id);
+public interface ReviewDao {
+
+    public List<ReviewDO> findByRevieweeEmpId(Long id);
+
+    public List<ReviewDO> findAllReviews();
+
+    public void createReview(Long revieweeId);
+
 }

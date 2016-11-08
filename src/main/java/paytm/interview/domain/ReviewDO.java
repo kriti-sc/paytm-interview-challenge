@@ -10,9 +10,8 @@ import paytm.interview.enums.ReviewState;
 public class ReviewDO {
 
     private Long reviewId;
-    private Long reviewerId;
-    private Long revieweeId;
-    private String content;
+    private Long revieweeEmpId;
+    private String revieweName;
     private ReviewState state;
 
 }

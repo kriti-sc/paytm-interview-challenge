@@ -14,7 +14,6 @@ public class ReviewCrudRestController {
 
     @Autowired
     private ReviewDao reviewDao;
-
     public void getAllReviews() {
 
     }

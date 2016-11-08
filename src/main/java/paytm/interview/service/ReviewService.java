@@ -1,5 +1,6 @@
 package paytm.interview.service;
 
+import paytm.interview.domain.FeedbackDO;
 import paytm.interview.domain.ReviewDO;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface ReviewService<T,V> {
 
-    public boolean createReview(T reviewObj);
+    public boolean createReview(Long revieweeId);
 
     public List<T> getAllReviews();
 
@@ -21,4 +22,9 @@ public interface ReviewService<T,V> {
 
     public boolean assignReviewees(List<Long> feedbackObjs,Long reviewId);
 
+    public List<FeedbackDO> getFeedbacksForReviewId(Long reviewId);
+
+    public void updateFeedback(FeedbackDO feedbackDO);
+
+    public void assignFeedbackRequests(List<Long> reviewerIds, Long reviewId);
 }

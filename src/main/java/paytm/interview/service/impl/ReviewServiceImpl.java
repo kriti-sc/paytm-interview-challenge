@@ -21,8 +21,8 @@ public class ReviewServiceImpl implements ReviewService<ReviewDO,FeedbackDO> {
     private FeedbackDao feedbackDao;
 
     @Override
-    public boolean createReview(ReviewDO reviewObj) {
-        reviewDao.createReview(reviewObj.getRevieweeEmpId());
+    public boolean createReview(Long revieweeId) {
+        reviewDao.createReview(revieweeId);
         return true;
     }
 
@@ -45,5 +45,20 @@ public class ReviewServiceImpl implements ReviewService<ReviewDO,FeedbackDO> {
     @Override
     public boolean assignReviewees(List<Long> reviewerEmpIds,Long reviewId) {
         return false;
+    }
+
+    @Override
+    public List<FeedbackDO> getFeedbacksForReviewId(Long reviewId) {
+        return feedbackDao.findByReviewId(reviewId);
+    }
+
+    @Override
+    public void updateFeedback(FeedbackDO feedbackDO) {
+        feedbackDao.updateFeedback(feedbackDO);
+    }
+
+    @Override
+    public void assignFeedbackRequests(List<Long> reviewerIds, Long reviewId) {
+
     }
 }

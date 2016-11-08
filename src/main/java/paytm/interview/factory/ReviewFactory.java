@@ -66,8 +66,8 @@ public class ReviewFactory {
         FeedbackDO obj = new FeedbackDO();
 
         try {
-            if(item.get("id")!=null) {
-                obj.setReviewId((Long) item.get("id"));
+            if(item.get("review_id")!=null) {
+                obj.setReviewId((Long) item.get("review_id"));
             }
             if(item.get("reviewee_id")!=null) {
                 obj.setRevieweeId((Long) item.get("reviewee_id"));
@@ -96,6 +96,9 @@ public class ReviewFactory {
                 obj.setContent((String)item.get("content"));
             }
 
+            if(item.get("id")!=null) {
+
+            }
         }catch(Exception e) {
             e.printStackTrace();
         }

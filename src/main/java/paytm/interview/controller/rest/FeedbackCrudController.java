@@ -1,9 +1,10 @@
 package paytm.interview.controller.rest;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import paytm.interview.domain.FeedbackDO;
+import paytm.interview.controller.rest.data.JsonResponse;
+import paytm.interview.controller.rest.data.MyFeedbackData;
 import paytm.interview.enums.ReviewState;
 import paytm.interview.service.ReviewService;
 
@@ -29,8 +30,9 @@ public class FeedbackCrudController {
         return reviewService.getAllFeedbacksForEmpId(empId);
     }
 
-    @RequestMapping(value="/update", method = RequestMethod.POST)
-    public void updateFeedback(@RequestBody MyFeedbackData feedbackData) {
+    @RequestMapping(value="/update", method = RequestMethod.POST,headers = {"Content-type=application/json"})
+
+    public @ResponseBody JsonResponse updateFeedback(@RequestBody MyFeedbackData feedbackData) {
         FeedbackDO feedbackDO = new FeedbackDO();
         feedbackDO.setContent(feedbackData.getContent());
         feedbackDO.setFeedbackId(feedbackData.getFeedbackId());
@@ -41,18 +43,15 @@ public class FeedbackCrudController {
             feedbackDO.setState(ReviewState.InComplete);
         }
         reviewService.updateFeedback(feedbackDO);
+        return new JsonResponse("OK","");
     }
 
     @RequestMapping(value="/{feedbackId}/detail", method = RequestMethod.GET)
     public FeedbackDO getFeedbackDetail(@PathVariable("feedbackId") Long feedbackId) {
         return (FeedbackDO) reviewService.getFeedbackDetail(feedbackId);
     }
-    @Data
-    private class MyFeedbackData {
 
-        private String content;
-        private Long feedbackId;
-        private boolean completed;
-    }
+
+
 
 }

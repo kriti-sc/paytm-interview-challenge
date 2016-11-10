@@ -53,13 +53,20 @@ var UpdateFeedbackModal = React.createClass({
     UpdateFeedback: function(e) {
         alert('on submit click');
         e.preventDefault();
-        // post data
         //$.post('/feedback/update',{content: this.state.content,feedbackId: this.state.feedbackId, completed:true})
-        //$.ajax({
-        //    url:'/feedback/update',
-        //    data: {content: this.state.content,feedbackId: this.state.feedbackId, completed:true},
-        //    contentType:"application/json; charset=utf-8"
-        //});
+        $.ajax({
+            type:'POST',
+            url:'/feedback/update',
+            data: JSON.stringify({content: this.state.content,feedbackId: this.state.feedbackId, completed:true}),
+            contentType:"application/json; charset=utf-8",
+            success: function(res) {
+                if(res.status=='OK') {
+                    alert('Feedback updated successfully');
+                }else {
+                    alert('Update failed'+res.message);
+                }
+            }
+        });
         this.closeModal();
     },
 

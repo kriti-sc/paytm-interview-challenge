@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import paytm.interview.dao.EmployeeDao;
 import paytm.interview.domain.EmployeeDO;
+import paytm.interview.entity.Employee;
+import paytm.interview.factory.EmployeeFactory;
 import paytm.interview.service.EmployeeService;
 
 import java.util.List;
@@ -17,6 +19,8 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeDO> {
     @Autowired
     private EmployeeDao employeeDao;
 
+    @Autowired
+    private EmployeeFactory employeeFactory;
     @Override
     public boolean createEmployee(EmployeeDO empObj) {
         return false;
@@ -34,6 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeDO> {
 
     @Override
     public EmployeeDO getEmployeeByEmpId(Long empId) {
-        return null;
+        Employee emp = employeeDao.findByEmpId(empId);
+        return employeeFactory.createEmployeeDo(emp);
     }
 }

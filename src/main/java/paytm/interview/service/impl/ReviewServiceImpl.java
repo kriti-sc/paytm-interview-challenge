@@ -39,7 +39,7 @@ public class ReviewServiceImpl implements ReviewService<ReviewDO,FeedbackDO> {
 
     @Override
     public List<FeedbackDO> getAllFeedbacksForEmpId(Long empId) {
-        return null;
+        return feedbackDao.findByReviewer(empId);
     }
 
     @Override

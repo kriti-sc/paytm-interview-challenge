@@ -5,49 +5,78 @@ var { Router,
     IndexLink,
     Link } = ReactRouter;
 
-var createEmpModal = React.createClass({
+var BsTable = ReactBootstrap.Table;
+var RbsButton = ReactBootstrap.Button;
+var ButtonToolBar = ReactBootstrap.ButtonToolbar;
+var RbsModal = ReactBootstrap.Modal;
+var Form = ReactBootstrap.Form;
+var FormGroup = ReactBootstrap.FormGroup;
+var FormControl = ReactBootstrap.FormControl;
+var Col = ReactBootstrap.Col;
+var ControlLabel = ReactBootstrap.ControlLabel;
+
+var CreateReviewModal = React.createClass({
 
     getInitialState : function() {
-        this.handleSubmit = this.handleSubmit.bind(this);
-        return   {
-            firstName : '',
-            lastName : '',
-            empId :'',
-            empType:''
+        return {
+            employees :[]
         }
     },
 
 
-    handleSubmit : function() {
-        alert(this.state.firstName);
+    componentDidMount : function() {
+        $.get('/employee/list', function (data) {
+            this.setState({
+                employees: data
+            });
+        }.bind(this));
     },
 
-    render(){
-        return (
-            <div className="modal fade">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 className="modal-title">Modal title</h4>
-                        </div>
-                        <div className="modal-body">
-                            <input type="text" label="First Name" value={this.state.firstName}></input>
-                            <input type="text" label="Last Name" value={this.state.lastName}></input>
-                            <input type="text" label="Emp ID" value={this.state.empId}></input>
-                            <input type="text" label="Empolyee Type" value={this.state.empType}></input>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onclick={this.handleSubmit}>Create</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
+        closeModal : function() {
+        if(typeof this.props.onClose === 'function') {
+            this.props.onClose();
+        }
+    },
+
+    createReview: function(e) {
+        e.preventDefault();
+        this.closeModal();
+    },
+
+    render : function() {
+        return(
+            <RbsModal show={this.props.showCreateModal} onHide={this.closeModal}>
+                <RbsModal.Header closeButton>
+                    <RbsModal.Title>
+                        Create Review
+                    </RbsModal.Title>
+                </RbsModal.Header>
+                <form onsubmit={this.createReview}>
+                    <RbsModal.Body>
+                        <FormGroup controlId="formEmpSelect">
+                            <Col componentClass={ControlLabel} sm={2}>
+                                Reviewee
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl componentClass="select" name="selected_id" ref="selected_id">
+                                    <option value={-1} >select</option>
+                                    {this.state.employees.map(function(emp){
+                                        return (
+                                            <option value={emp.empId}>{emp.lastName},{emp.firstName}</option>
+                                        );
+                                    })}
+                                </FormControl>
+                            </Col>
+                        </FormGroup>
+                    </RbsModal.Body>
+                    <RbsModal.Footer>
+                        <RbsButton onClick={this.createReview} bsStyle="primary">Create</RbsButton>
+                    </RbsModal.Footer>
+                </form>
+            </RbsModal>
+        );
     }
 });
-
 var Employees = React.createClass({
 
     getInitialState : function() {
@@ -58,6 +87,7 @@ var Employees = React.createClass({
 
 
     componentDidMount : function() {
+        alert('mounting component');
         $.get('/employee/list',function(data){
             this.setState({
                 employees : data
@@ -67,21 +97,17 @@ var Employees = React.createClass({
 
     },
 
-    showCreateModal : function() {
-        $(this.refs.modal.findDOMNode()).modal();
-    },
-
-    render: function() {
+        render: function() {
         return (
             <div><h2>List of Employees</h2>
                 <div className="button-bar">
-                    <button className="btn-primary" type="button" onClick={this.showCreateModal}>Add</button>
+                    <button className="btn-primary" type="button">Add</button>
                     <button className="btn-primary" type="button">Update</button>
                     <button className="btn-primary" type="button">Delete</button>
-                    <createEmpModal/>
                 </div>
-                <div className="clearfix">
-                    <table className="table table-bordered">
+                <div>
+                    <BsTable striped bordered condensed hover>
+                        <thead>
                         <tr>
                             <th></th>
                             <th>First Name</th>
@@ -89,6 +115,8 @@ var Employees = React.createClass({
                             <th>Emp ID</th>
                             <th>Employee Type</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         {this.state.employees.map(function(emp){
                             return <tr>
                                 <td><input type="radio"/> </td>
@@ -98,7 +126,8 @@ var Employees = React.createClass({
                                 <td>{emp.type}</td>
                             </tr>;
                         })}
-                    </table>
+                        </tbody>
+                    </BsTable>
                 </div>
             </div>
         );
@@ -106,39 +135,77 @@ var Employees = React.createClass({
 });
 
 var Reviews = React.createClass({
+
+    getInitialState : function() {
+        return {
+            reviews :[],
+            showCreateModal: false
+        }
+    },
+
+    componentDidMount : function() {
+        $.get('/reviews',function(data){
+            this.setState({
+                reviews : data,
+                showCreateModal: false
+            });
+        }.bind(this));
+
+
+    },
+
+
+    openModal : function() {
+        this.setState({ showCreateModal: true });
+    },
+
+    closeModal : function() {
+      this.setState({showCreateModal : false});
+    },
+
+    createReview : function() {
+        alert('create!');
+    },
+
     render: function() {
         return (
             <div>
                 <h2>List of Reviews</h2>
-                <table className="table table-bordered">
-                    <tr className="table-row-cell">
+                <ButtonToolBar>
+                    <RbsButton bsStyle="primary" onClick={this.openModal}>Create</RbsButton>
+                </ButtonToolBar>
+
+                <BsTable striped bordered condensed hover>
+                    <thead>
+                    <tr>
                         <th>Review ID</th>
-                        <th>Reviewer ID</th>
+                        <th>Reviewee Name</th>
                         <th>Reviewee ID</th>
-                        <th>Content</th>
                         <th>State</th>
                     </tr>
-                    <tr className="table-row-cell">
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                    </tr>
-                    <tr className="table-row-cell">
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                    </tr>
-                </table>
+                    </thead>
+                    <tbody>
+                    {this.state.reviews.map(function(item){
+                        return <tr>
+                            <td><Link to="/feedback">{item.reviewId}</Link></td>
+                            <td>{item.revieweName}</td>
+                            <td>{item.revieweeEmpId}</td>
+                            <td>{item.state}</td>
+                        </tr>;
+                    })}
+                    </tbody>
+                </BsTable>
+                <CreateReviewModal showCreateModal={this.state.showCreateModal} onClose={this.closeModal}/>
                </div>
         );
     }
 });
 
-
+var AdminFeedback = React.createClass({
+    render: function() {
+        return (<h2>hello feedbacks</h2>);
+    }
+});
 
 var Home = React.createClass({
     render: function() {
@@ -154,7 +221,7 @@ var App = React.createClass({
     render: function() {
         return (
             <div className="container-fluid" >
-                <h1>Employee Performance Reviews App</h1>
+                    <h1>Employee Performance Reviews App</h1>
                 <nav className="navbar navbar-default">
                     <ul className="nav navbar-nav">
                         <li className="active"><Link to="/">Home</Link></li>
@@ -176,6 +243,7 @@ ReactDOM.render(
             <IndexRoute component={Home}/>
             <Route path="employees" component={Employees}/>
             <Route path="reviews" component={Reviews}/>
+            <Route path="feedback" component={AdminFeedback} />
         </Route>
     </Router>,
     destination

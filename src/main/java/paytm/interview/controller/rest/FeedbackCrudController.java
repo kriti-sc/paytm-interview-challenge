@@ -24,6 +24,11 @@ public class FeedbackCrudController {
         return reviewService.getFeedbacksForReviewId(reviewId);
     }
 
+    @RequestMapping(value="/list/{empId}" ,method=RequestMethod.GET)
+    public List<FeedbackDO> getFeedbackForEmpId(@PathVariable("empId") Long empId) {
+        return reviewService.getAllFeedbacksForEmpId(empId);
+    }
+
     @RequestMapping(value="/update", method = RequestMethod.POST,consumes = "application/json")
     public void updateFeedback(MyFeedbackData feedbackData) {
         FeedbackDO feedbackDO = new FeedbackDO();

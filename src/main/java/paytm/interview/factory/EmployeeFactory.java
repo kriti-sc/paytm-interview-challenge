@@ -30,7 +30,6 @@ public class EmployeeFactory {
         emp.setLastName(obj.getLastName());
         emp.setEmpId(obj.getEmpId());
         emp.setType(obj.getType().toString());
-        Calendar cal = Calendar.getInstance();
         return emp;
     }
 }

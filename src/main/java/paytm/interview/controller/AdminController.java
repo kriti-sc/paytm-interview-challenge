@@ -11,6 +11,6 @@ public class AdminController {
 
     @RequestMapping(path = "/admin")
     public String getAdminView() {
-        return "admin";
+        return "main";
     }
 }

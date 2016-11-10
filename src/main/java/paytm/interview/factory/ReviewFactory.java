@@ -11,16 +11,23 @@ import java.util.Map;
 
 /**
  * Created by sriramvcs on 2016-11-06.
+ * This factory builds domain objects for reviews and feedbacks from jdbc result sets.
  */
 @Component
 public class ReviewFactory {
 
+    /**
+     * Builds Review domain objects from the result set.
+     * @param resultList
+     * @return ReviewDO
+     */
     public List<ReviewDO> returnReviewDoList(List<Map<String, Object>> resultList) {
         List<ReviewDO> reviewDoList = new ArrayList<>();
         resultList.forEach(item->reviewDoList.add(buildReviewFromResultSet(item)));
 
         return reviewDoList;
     }
+
 
     private ReviewDO buildReviewFromResultSet(Map<String, Object> item) {
 
@@ -54,6 +61,11 @@ public class ReviewFactory {
 
     }
 
+    /**
+     * Build feedback domain object from result set.
+     * @param resultList
+     * @return
+     */
     public List<FeedbackDO> returnFeedbackDoList(List<Map<String, Object>> resultList) {
         List<FeedbackDO> feedbackDoList = new ArrayList<>();
         resultList.forEach(item->feedbackDoList.add(buildFeedbackFromResultSet(item)));

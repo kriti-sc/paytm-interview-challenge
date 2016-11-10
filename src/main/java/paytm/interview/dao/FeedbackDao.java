@@ -16,4 +16,6 @@ public interface FeedbackDao {
     public List<FeedbackDO> findByReviewId(Long reviewId);
 
     public void updateFeedback(FeedbackDO feedbackObj);
+
+    public List<FeedbackDO> findById(Long feedbackId);
 }

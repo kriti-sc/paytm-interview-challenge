@@ -61,4 +61,9 @@ public class ReviewServiceImpl implements ReviewService<ReviewDO,FeedbackDO> {
     public void assignFeedbackRequests(List<Long> reviewerIds, Long reviewId) {
 
     }
+
+    @Override
+    public FeedbackDO getFeedbackDetail(Long feedbackId) {
+        return feedbackDao.findById(feedbackId).get(0);
+    }
 }

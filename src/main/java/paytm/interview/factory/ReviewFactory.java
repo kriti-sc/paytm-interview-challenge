@@ -109,7 +109,7 @@ public class ReviewFactory {
             }
 
             if(item.get("id")!=null) {
-
+                obj.setFeedbackId((Long) item.get("id"));
             }
         }catch(Exception e) {
             e.printStackTrace();

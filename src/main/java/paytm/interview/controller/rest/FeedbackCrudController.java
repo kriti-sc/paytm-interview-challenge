@@ -29,8 +29,8 @@ public class FeedbackCrudController {
         return reviewService.getAllFeedbacksForEmpId(empId);
     }
 
-    @RequestMapping(value="/update", method = RequestMethod.POST,consumes = "application/json")
-    public void updateFeedback(MyFeedbackData feedbackData) {
+    @RequestMapping(value="/update", method = RequestMethod.POST)
+    public void updateFeedback(@RequestBody MyFeedbackData feedbackData) {
         FeedbackDO feedbackDO = new FeedbackDO();
         feedbackDO.setContent(feedbackData.getContent());
         feedbackDO.setFeedbackId(feedbackData.getFeedbackId());
@@ -43,6 +43,10 @@ public class FeedbackCrudController {
         reviewService.updateFeedback(feedbackDO);
     }
 
+    @RequestMapping(value="/{feedbackId}/detail", method = RequestMethod.GET)
+    public FeedbackDO getFeedbackDetail(@PathVariable("feedbackId") Long feedbackId) {
+        return (FeedbackDO) reviewService.getFeedbackDetail(feedbackId);
+    }
     @Data
     private class MyFeedbackData {
 

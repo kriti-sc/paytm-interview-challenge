@@ -106,4 +106,30 @@ public class FeedBackDaoImpl implements FeedbackDao {
             logger.debug("updateFeedback(FeedbackDO feedbackObj) end");
         }
     }
+
+    @Override
+    public List<FeedbackDO> findById(Long feedbackId) {
+        if(logger.isDebugEnabled()) {
+            logger.debug("findById(Long feedbackId) start");
+        }
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("select review.id,review.reviewee_id,feedback.reviewer_emp_id,feedback.content,\n" +
+                "feedback.state,employee.first_name,employee.last_name from\n" +
+                "feedback \n" +
+                "INNER JOIN review ON review.id = feedback.review_id\n" +
+                "INNER JOIN employee ON (feedback.reviewee_emp_id = employee.emp_id)\n" +
+                " where feedback.id = :feedbackId");
+
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("feedbackId",feedbackId);
+        List<Map<String,Object>> resultList = jdbcTemplate.queryForList(sql.toString(),parameterSource);
+
+        if(logger.isDebugEnabled()) {
+            logger.debug("Executed query "+sql.toString()+"/n The result is "+resultList);
+            logger.debug("findById(Long feedbackId) end");
+        }
+
+        return  reviewFeedbackFactory.returnFeedbackDoList(resultList);
+    }
 }

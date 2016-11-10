@@ -27,4 +27,6 @@ public interface ReviewService<T,V> {
     public void updateFeedback(FeedbackDO feedbackDO);
 
     public void assignFeedbackRequests(List<Long> reviewerIds, Long reviewId);
+
+    public V getFeedbackDetail(Long feedbackId);
 }

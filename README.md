@@ -18,6 +18,12 @@ spring.datasource.password=sriram
 ```
 
 Once all this is done, you are good to go. Run the Java class https://github.com/sriramvcs/paytm-interview-challenge/blob/master/src/main/java/paytm/interview/PaytmInterviewChallengeApplication.java to start your application. 
+After the application is running you can use the below URLs to checkout the UI. Some of the features that are NOT functional yet are:
+1. Employee create,update and delete.
+2. Assign reviews to employee for feedback. (Has a functional REST API)
+
+Use http://localhost:8080/employee/{empId} to see the employee view
+or use http://localhost:8080/admin to see the admin view
 
 Refer to project wiki detailed explanations.
 

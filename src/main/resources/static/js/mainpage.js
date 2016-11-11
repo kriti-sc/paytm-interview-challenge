@@ -19,7 +19,8 @@ var CreateReviewModal = React.createClass({
 
     getInitialState : function() {
         return {
-            employees :[]
+            employees :[],
+            selectedEmpId:-1
         }
     },
 
@@ -39,10 +40,27 @@ var CreateReviewModal = React.createClass({
     },
 
     createReview: function(e) {
+        alert(this.state.selectedEmpId);
         e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'/feedback/update',
+            data: JSON.stringify({content: this.state.content,feedbackId: this.state.feedbackId, completed:true}),
+            contentType:"application/json; charset=utf-8",
+            success: function(res) {
+                if(res.status=='OK') {
+                    alert('Feedback updated successfully');
+                }else {
+                    alert('Update failed'+res.message);
+                }
+            }
+        });
         this.closeModal();
     },
-
+    handleChange : function(e) {
+        alert('handle change');
+      this.setState({selectedEmpId:event.target.value})
+    },
     render : function() {
         return(
             <RbsModal show={this.props.showCreateModal} onHide={this.closeModal}>
@@ -53,20 +71,17 @@ var CreateReviewModal = React.createClass({
                 </RbsModal.Header>
                 <form onsubmit={this.createReview}>
                     <RbsModal.Body>
-                        <FormGroup controlId="formEmpSelect">
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Reviewee
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl componentClass="select" name="selected_id" ref="selected_id">
-                                    <option value={-1} >select</option>
-                                    {this.state.employees.map(function(emp){
-                                        return (
-                                            <option value={emp.empId}>{emp.lastName},{emp.firstName}</option>
-                                        );
-                                    })}
-                                </FormControl>
-                            </Col>
+                        <FormGroup>
+                            <ControlLabel>Choose Employee</ControlLabel>
+                            <FormControl componentClass="select" placeholder="select" value={this.state.selectedEmpId} onChange={this.handleChange}>
+                                <option value="select">select</option>
+                                <option value="other">...</option>
+                                {this.state.employees.map(function(emp){
+                                    return (
+                                        <option value={emp.empId}>{emp.lastName},{emp.firstName}</option>
+                                    );
+                                })}
+                            </FormControl>
                         </FormGroup>
                     </RbsModal.Body>
                     <RbsModal.Footer>
@@ -77,6 +92,8 @@ var CreateReviewModal = React.createClass({
         );
     }
 });
+
+
 var Employees = React.createClass({
 
     getInitialState : function() {
@@ -160,12 +177,11 @@ var Reviews = React.createClass({
     },
 
     closeModal : function() {
-      this.setState({showCreateModal : false});
+      //this.setState({showCreateModal : false});
+        console.log(this);
+        this.componentDidMount();
     },
 
-    createReview : function() {
-        alert('create!');
-    },
 
     render: function() {
         return (
@@ -187,7 +203,7 @@ var Reviews = React.createClass({
                     <tbody>
                     {this.state.reviews.map(function(item){
                         return <tr>
-                            <td><Link to="/feedback">{item.reviewId}</Link></td>
+                            <td><Link to={"/feedback/"+item.reviewId}>{item.reviewId}</Link></td>
                             <td>{item.revieweName}</td>
                             <td>{item.revieweeEmpId}</td>
                             <td>{item.state}</td>
@@ -202,8 +218,52 @@ var Reviews = React.createClass({
 });
 
 var AdminFeedback = React.createClass({
+    getInitialState : function() {
+        return {
+            feedbacks :[],
+        }
+    },
+
+
+    componentDidMount : function() {
+        $.get('/feedback/view/'+this.props.params.reviewId,function(data){
+            this.setState({
+                feedbacks : data
+            });
+        }.bind(this));
+
+    },
+
     render: function() {
-        return (<h2>hello feedbacks</h2>);
+
+        return (
+            <div><h2>List of Feedbacks</h2>
+                <div className="button-bar">
+                </div>
+                <div>
+                    <BsTable striped bordered condensed hover>
+                        <thead>
+                        <tr>
+                            <th>Reviewee</th>
+                            <th>Reviewee ID</th>
+                            <th>Content</th>
+                            <th>State</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.feedbacks.map((fdb)=>{
+                            return <tr>
+                                <td>{fdb.revieweeName}</td>
+                                <td>{fdb.revieweeId}</td>
+                                <td>{fdb.content}</td>
+                                <td>{fdb.state}</td>
+                            </tr>;
+                        })}
+                        </tbody>
+                    </BsTable>
+                </div>
+            </div>
+        );
     }
 });
 
@@ -243,7 +303,7 @@ ReactDOM.render(
             <IndexRoute component={Home}/>
             <Route path="employees" component={Employees}/>
             <Route path="reviews" component={Reviews}/>
-            <Route path="feedback" component={AdminFeedback} />
+            <Route path="feedback/:reviewId" component={AdminFeedback} />
         </Route>
     </Router>,
     destination

@@ -24,7 +24,7 @@ public class ReviewCrudRestController {
         return reviewService.getAllReviews();
     }
 
-    @RequestMapping(value="/reviews/create" ,method=RequestMethod.POST)
+    @RequestMapping(value="/reviews/create/{revieweeId}" ,method=RequestMethod.POST)
     public void createReview(@RequestParam(required = true,value = "revieweeId") Long revieweeId) {
         reviewService.createReview(revieweeId);
     }

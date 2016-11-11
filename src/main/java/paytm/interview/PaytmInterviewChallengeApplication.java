@@ -18,6 +18,11 @@ public class PaytmInterviewChallengeApplication {
 		SpringApplication.run(PaytmInterviewChallengeApplication.class, args);
 	}
 
+	/**
+	 * Creating a JDBC template to talk to the DB using jdbc.
+	 * @param dataSource
+	 * @return
+     */
 	@Bean
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate(@Autowired DataSource dataSource) {
 		return new NamedParameterJdbcTemplate(dataSource);

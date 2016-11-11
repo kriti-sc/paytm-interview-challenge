@@ -3,6 +3,7 @@ package paytm.interview.controller.rest.data;
 import lombok.Data;
 
 /**
+ * Simple object used as a response for POST requests
  * Created by sriramvcs on 2016-11-10.
  */
 @Data

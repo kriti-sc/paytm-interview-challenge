@@ -8,6 +8,7 @@ import paytm.interview.entity.Employee;
 import java.util.Calendar;
 
 /**
+ * This factory builds employee domain objects from result sets
  * Created by sriramvcs on 2016-11-05.
  */
 @Component

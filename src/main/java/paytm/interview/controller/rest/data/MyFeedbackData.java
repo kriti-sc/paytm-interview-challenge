@@ -3,6 +3,7 @@ package paytm.interview.controller.rest.data;
 import lombok.Data;
 
 /**
+ * Object you to map JSON data sent for updating feedback.
  * Created by sriramvcs on 2016-11-10.
  */
 @Data

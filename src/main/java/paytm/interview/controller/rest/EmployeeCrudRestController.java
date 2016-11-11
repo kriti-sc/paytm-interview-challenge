@@ -6,11 +6,13 @@ import paytm.interview.dao.EmployeeDao;
 import paytm.interview.domain.EmployeeDO;
 import paytm.interview.entity.Employee;
 import paytm.interview.factory.EmployeeFactory;
+import paytm.interview.service.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This controller is used to serve up all get/post AJAX data requests related to employees
  * Created by sriramvcs on 2016-11-05.
  */
 @RestController
@@ -18,14 +20,12 @@ import java.util.List;
 public class EmployeeCrudRestController {
 
     @Autowired
-    private EmployeeDao employeeDao;
-    @Autowired
-    private EmployeeFactory empFactory;
+    private EmployeeService employeeService;
 
     @RequestMapping(value="/list", method = RequestMethod.GET)
     public List<EmployeeDO> getEmployeeList() {
 
-        return buildEmpData(employeeDao.findAll());
+        return employeeService.getAllEmployees();
     }
 
     /*@RequestMapping(value="/create", method = RequestMethod.POST)
@@ -33,21 +33,7 @@ public class EmployeeCrudRestController {
 
     }*/
 
-    @RequestMapping(value="/delete", method = RequestMethod.DELETE)
-    public void deleteEmployee(@RequestParam  Long id) {
-        employeeDao.delete(id);
-    }
 
-
-
-    private List<EmployeeDO> buildEmpData(Iterable<Employee> empEntityList) {
-
-        List<EmployeeDO> empDataList = new ArrayList<>();
-        empEntityList.forEach(item->{
-            empDataList.add(empFactory.createEmployeeDo(item));
-        });
-        return empDataList;
-    }
 
 
 }

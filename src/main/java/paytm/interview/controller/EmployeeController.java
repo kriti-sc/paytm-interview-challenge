@@ -11,6 +11,7 @@ import paytm.interview.service.EmployeeService;
 
 /**
  * Created by sriramvcs on 2016-11-02.
+ * This controller is used to return the thymeleaf template for employee views
  */
 @Controller
 public class EmployeeController {

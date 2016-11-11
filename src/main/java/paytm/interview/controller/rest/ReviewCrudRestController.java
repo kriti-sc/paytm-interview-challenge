@@ -11,6 +11,7 @@ import paytm.interview.service.ReviewService;
 import java.util.List;
 
 /**
+ * This controller is used to serve up all get/post AJAX data requests related to reviews
  * Created by sriramvcs on 2016-11-05.
  */
 @RestController

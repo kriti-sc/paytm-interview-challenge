@@ -43,7 +43,6 @@ var CreateReviewModal = React.createClass({
 
     createReview: function(e) {
         e.preventDefault();
-        alert(this.state.selectedEmpId);
         $.ajax({
             type:'POST',
             url:'/reviews/create/'+this.state.selectedEmpId,
@@ -60,7 +59,6 @@ var CreateReviewModal = React.createClass({
         this.closeModal();
     },
     handleChange : function(e) {
-        alert('handle change');
       this.setState({selectedEmpId:event.target.value})
     },
     render : function() {
@@ -122,7 +120,6 @@ var CreateReviewModal = React.createClass({
 
     createReview: function(e) {
         e.preventDefault();
-        alert(this.state.selectedEmpId);
         $.ajax({
             type:'POST',
             url:'/reviews/create/'+this.state.selectedEmpId,
@@ -139,7 +136,6 @@ var CreateReviewModal = React.createClass({
         this.closeModal();
     },
     handleChange : function(e) {
-        alert('handle change');
         this.setState({selectedEmpId:event.target.value})
     },
     render : function() {
@@ -185,7 +181,6 @@ var Employees = React.createClass({
 
 
     componentDidMount : function() {
-        alert('mounting component');
         $.get('/employee/list',function(data){
             this.setState({
                 employees : data

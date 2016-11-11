@@ -5,6 +5,7 @@ import paytm.interview.domain.FeedbackDO;
 import java.util.List;
 
 /**
+ * This interface is used to access the Feedback table in the DB
  * Created by sriramvcs on 2016-11-07.
  */
 public interface FeedbackDao {

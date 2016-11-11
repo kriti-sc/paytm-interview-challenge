@@ -8,6 +8,7 @@ import paytm.interview.entity.Employee;
 import paytm.interview.factory.EmployeeFactory;
 import paytm.interview.service.EmployeeService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,18 +23,23 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeDO> {
     @Autowired
     private EmployeeFactory employeeFactory;
     @Override
-    public boolean createEmployee(EmployeeDO empObj) {
-        return false;
+    public void createEmployee(EmployeeDO empObj) {
+        employeeDao.save(employeeFactory.createEmployeeEntity(empObj));
     }
 
     @Override
-    public boolean updateEmployee(EmployeeDO empObj) {
-        return false;
+    public void updateEmployee(EmployeeDO empObj) {
+        employeeDao.save(employeeFactory.createEmployeeEntity(empObj));
     }
 
     @Override
     public List<EmployeeDO> getAllEmployees() {
-        return null;
+        Iterable<Employee> empEntityList = employeeDao.findAll();
+        List<EmployeeDO> empDataList = new ArrayList<>();
+        empEntityList.forEach(item->{
+            empDataList.add(employeeFactory.createEmployeeDo(item));
+        });
+        return empDataList;
     }
 
     @Override

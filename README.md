@@ -10,18 +10,10 @@ This project requires the following to be installed:<br>
 7. Now update DB schema info in application.properties file https://github.com/sriramvcs/paytm-interview-challenge/blob/master/src/main/resources/application.properties
 
 ```html
-<h2>Example of code</h2>
-
-<pre>
-    <div class="container">
-        <div class="block two first">
-            <h2>Your title</h2>
-            <div class="wrap">
-            //Your content
-            </div>
-        </div>
-    </div>
-</pre>
+// add you DB info here
+spring.datasource.url=jdbc:mysql://localhost/empreview
+spring.datasource.username=root
+spring.datasource.password=sriram
 ```
 
-5. Run the Java class https://github.com/sriramvcs/paytm-interview-challenge/blob/master/src/main/java/paytm/interview/PaytmInterviewChallengeApplication.java to start your application. 
+5. Once all this is done, you are good to go. Run the Java class https://github.com/sriramvcs/paytm-interview-challenge/blob/master/src/main/java/paytm/interview/PaytmInterviewChallengeApplication.java to start your application. 

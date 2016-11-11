@@ -51,7 +51,6 @@ var UpdateFeedbackModal = React.createClass({
     },
 
     UpdateFeedback: function(e) {
-        alert('on submit click');
         e.preventDefault();
         //$.post('/feedback/update',{content: this.state.content,feedbackId: this.state.feedbackId, completed:true})
         $.ajax({
@@ -71,7 +70,6 @@ var UpdateFeedbackModal = React.createClass({
     },
 
     saveAsDraft : function(e) {
-        alert('on save as draft click');
         e.preventDefault();
         // post state data to server
         this.closeModal();
@@ -139,12 +137,13 @@ var Feedbacks = React.createClass({
 
     getSelectedFbObj : function(fbId) {
         var fbItem=null;
-        //this.state.feedbacks.forEach(item=>{
-        //    if(item.feedbackId===fbId) {
-        //        alert('fbId='+fbId+' item.feedbackId='+item.feedbackId);
-        //        fbItem = item;
-        //    }
-        return this.state.feedbacks[1];
+        this.state.feedbacks.forEach(item=> {
+            if (item.feedbackId === JSON.parse(fbId)) {
+                alert('fbId=' + fbId + ' item.feedbackId=' + item.feedbackId);
+                fbItem = item;
+            }
+        });
+        return fbItem;
     },
     render: function() {
 

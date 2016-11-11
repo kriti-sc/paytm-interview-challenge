@@ -44,12 +44,12 @@ public class FeedBackDaoImpl implements FeedbackDao {
         }
 
         StringBuilder sql = new StringBuilder();
-        sql.append("select review.id,review.reviewee_id,feedback.reviewer_emp_id,feedback.content,\n" +
-                "feedback.state,employee.first_name,employee.last_name from\n" +
-                "feedback \n" +
-                "INNER JOIN review ON review.id = feedback.review_id\n" +
-                "INNER JOIN employee ON (feedback.reviewee_emp_id = employee.emp_id)\n" +
-                " where feedback.reviewer_emp_id = :reviewerEmpId");
+        sql.append("select feedback.review_id,feedback.id,feedback.reviewer_emp_id,feedback.reviewee_emp_id,feedback.content,\n" +
+                "                feedback.state,employee.first_name,employee.last_name from\n" +
+                "                feedback\n" +
+                "                INNER JOIN review ON review.id = feedback.review_id\n" +
+                "                INNER JOIN employee ON (feedback.reviewee_emp_id = employee.emp_id)\n" +
+                "                 where feedback.reviewer_emp_id =:reviewerEmpId;");
 
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("reviewerEmpId",reviewerEmpId);

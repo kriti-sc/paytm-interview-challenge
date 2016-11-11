@@ -81,7 +81,7 @@ public class ReviewFactory {
             if(item.get("review_id")!=null) {
                 obj.setReviewId((Long) item.get("review_id"));
             }
-            if(item.get("reviewee_id")!=null) {
+            if(item.get("reviewee_emp_id")!=null) {
                 obj.setRevieweeId((Long) item.get("reviewee_id"));
             }
             StringBuilder fullName = new StringBuilder();

@@ -111,6 +111,9 @@ public class ReviewFactory {
             if(item.get("id")!=null) {
                 obj.setFeedbackId((Long) item.get("id"));
             }
+            if(item.get("reviewer_emp_id")!=null) {
+                obj.setReviewerId((Long) item.get("reviewer_emp_id"));
+            }
         }catch(Exception e) {
             e.printStackTrace();
         }

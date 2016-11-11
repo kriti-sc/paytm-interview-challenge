@@ -14,6 +14,8 @@ var FormGroup = ReactBootstrap.FormGroup;
 var FormControl = ReactBootstrap.FormControl;
 var Col = ReactBootstrap.Col;
 var ControlLabel = ReactBootstrap.ControlLabel;
+var Panel = ReactBootstrap.Panel;
+var Checkbox = ReactBootstrap.Checkbox;
 
 var CreateReviewModal = React.createClass({
 
@@ -40,16 +42,16 @@ var CreateReviewModal = React.createClass({
     },
 
     createReview: function(e) {
-        alert(this.state.selectedEmpId);
         e.preventDefault();
+        alert(this.state.selectedEmpId);
         $.ajax({
             type:'POST',
-            url:'/feedback/update',
+            url:'/reviews/create/'+this.state.selectedEmpId,
             data: JSON.stringify({content: this.state.content,feedbackId: this.state.feedbackId, completed:true}),
             contentType:"application/json; charset=utf-8",
             success: function(res) {
                 if(res.status=='OK') {
-                    alert('Feedback updated successfully');
+                    alert('Review created successfully');
                 }else {
                     alert('Update failed'+res.message);
                 }
@@ -60,6 +62,85 @@ var CreateReviewModal = React.createClass({
     handleChange : function(e) {
         alert('handle change');
       this.setState({selectedEmpId:event.target.value})
+    },
+    render : function() {
+        return(
+            <RbsModal show={this.props.showCreateModal} onHide={this.closeModal}>
+                <RbsModal.Header closeButton>
+                    <RbsModal.Title>
+                        Create Review
+                    </RbsModal.Title>
+                </RbsModal.Header>
+                <form onsubmit={this.createReview}>
+                    <RbsModal.Body>
+                        <FormGroup>
+                            <ControlLabel>Choose Employee</ControlLabel>
+                            <FormControl componentClass="select" placeholder="select" value={this.state.selectedEmpId} onChange={this.handleChange}>
+                                <option value="select">select</option>
+                                <option value="other">...</option>
+                                {this.state.employees.map(function(emp){
+                                    return (
+                                        <option value={emp.empId}>{emp.lastName},{emp.firstName}</option>
+                                    );
+                                })}
+                            </FormControl>
+                        </FormGroup>
+                    </RbsModal.Body>
+                    <RbsModal.Footer>
+                        <RbsButton onClick={this.createReview} bsStyle="primary">Create</RbsButton>
+                    </RbsModal.Footer>
+                </form>
+            </RbsModal>
+        );
+    }
+});
+
+
+var CreateReviewModal = React.createClass({
+
+    getInitialState : function() {
+        return {
+            employees :[],
+            selectedEmpId:-1
+        }
+    },
+
+
+    componentDidMount : function() {
+        $.get('/employee/list', function (data) {
+            this.setState({
+                employees: data
+            });
+        }.bind(this));
+    },
+
+    closeModal : function() {
+        if(typeof this.props.onClose === 'function') {
+            this.props.onClose();
+        }
+    },
+
+    createReview: function(e) {
+        e.preventDefault();
+        alert(this.state.selectedEmpId);
+        $.ajax({
+            type:'POST',
+            url:'/reviews/create/'+this.state.selectedEmpId,
+            data: JSON.stringify({content: this.state.content,feedbackId: this.state.feedbackId, completed:true}),
+            contentType:"application/json; charset=utf-8",
+            success: function(res) {
+                if(res.status=='OK') {
+                    alert('Review created successfully');
+                }else {
+                    alert('Update failed'+res.message);
+                }
+            }
+        });
+        this.closeModal();
+    },
+    handleChange : function(e) {
+        alert('handle change');
+        this.setState({selectedEmpId:event.target.value})
     },
     render : function() {
         return(
@@ -178,7 +259,6 @@ var Reviews = React.createClass({
 
     closeModal : function() {
       //this.setState({showCreateModal : false});
-        console.log(this);
         this.componentDidMount();
     },
 
@@ -221,6 +301,7 @@ var AdminFeedback = React.createClass({
     getInitialState : function() {
         return {
             feedbacks :[],
+            open:false
         }
     },
 
@@ -233,19 +314,31 @@ var AdminFeedback = React.createClass({
         }.bind(this));
 
     },
-
+    openAssignPanel : function() {
+        if(!this.state.open) {
+            $.get('/employee/list', function (data) {
+                this.setState({
+                    employees: data,
+                    open: !this.state.open
+                });
+            }.bind(this));
+        }
+        else {
+            this.setState({open:!this.state.open})
+        }
+    },
     render: function() {
-
+        const assignEmp = {}
         return (
             <div><h2>List of Feedbacks</h2>
-                <div className="button-bar">
-                </div>
+
                 <div>
                     <BsTable striped bordered condensed hover>
                         <thead>
                         <tr>
                             <th>Reviewee</th>
                             <th>Reviewee ID</th>
+                            <th>Reviewer ID</th>
                             <th>Content</th>
                             <th>State</th>
                         </tr>
@@ -255,12 +348,18 @@ var AdminFeedback = React.createClass({
                             return <tr>
                                 <td>{fdb.revieweeName}</td>
                                 <td>{fdb.revieweeId}</td>
+                                <td>{fdb.reviewerId}</td>
                                 <td>{fdb.content}</td>
                                 <td>{fdb.state}</td>
                             </tr>;
                         })}
                         </tbody>
                     </BsTable>
+                </div>
+                <div>
+                    <RbsButton bsStyle="info" onClick={this.openAssignPanel}>Assign Reviewers</RbsButton>
+                    <Panel collapsible expanded={this.state.open}>
+                     </Panel>
                 </div>
             </div>
         );

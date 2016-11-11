@@ -2,6 +2,7 @@ package paytm.interview.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import paytm.interview.controller.rest.data.JsonResponse;
 import paytm.interview.dao.ReviewDao;
 import paytm.interview.domain.FeedbackDO;
 import paytm.interview.domain.ReviewDO;
@@ -25,8 +26,9 @@ public class ReviewCrudRestController {
     }
 
     @RequestMapping(value="/reviews/create/{revieweeId}" ,method=RequestMethod.POST)
-    public void createReview(@RequestParam(required = true,value = "revieweeId") Long revieweeId) {
+    public @ResponseBody JsonResponse createReview(@PathVariable(required = true,value = "revieweeId") Long revieweeId) {
         reviewService.createReview(revieweeId);
+        return new JsonResponse("OK","");
     }
 
     @RequestMapping(value="/reviews/{reviewId}/feedbacks" ,method=RequestMethod.GET)

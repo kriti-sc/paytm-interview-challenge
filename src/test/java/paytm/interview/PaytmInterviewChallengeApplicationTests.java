@@ -20,6 +20,7 @@ Integration tests. Used for dev purposes only.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Ignore
 public class PaytmInterviewChallengeApplicationTests {
 
 	@Autowired

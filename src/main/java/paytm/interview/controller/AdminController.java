@@ -1,6 +1,7 @@
 package paytm.interview.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @RequestMapping(path = "/admin")
-    public String getAdminView() {
+    public String getAdminView(Model model) {
+        model.addAttribute("empId",0);
+        model.addAttribute("empName","Admin");
         return "main";
     }
 }

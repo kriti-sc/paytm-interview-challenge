@@ -3,22 +3,22 @@
 
 <head lang="en">
     <meta charset="UTF-8"/>
-    <title>Employee Performance Review: Admin View</title>
+    <title>Employee Performance Review</title>
     <!-- Bootstrap css-->
-    <link rel="stylesheet" th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}" />
-    <!--jquery-->
-    <script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+    <!--<link rel="stylesheet" th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}" />-->
+    <!--&lt;!&ndash;jquery&ndash;&gt;-->
+    <!--<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>-->
 
-    <!-- Include react js files -->
-    <script th:src="@{/bower_components/react/react.min.js}"></script>
-    <script th:src="@{/bower_components/react/react-dom.min.js}"></script>
+    <!--&lt;!&ndash; Include react js files &ndash;&gt;-->
+    <!--<script th:src="@{/bower_components/react/react.min.js}"></script>-->
+    <!--<script th:src="@{/bower_components/react/react-dom.min.js}"></script>-->
 
-    <script src="https://npmcdn.com/react-router@2.4.0/umd/ReactRouter.min.js"></script>
-    <!-- Babel js-->
-    <script th:src="@{/bower_components/babel/browser.min.js}"></script>
+    <!--<script src="https://npmcdn.com/react-router@2.4.0/umd/ReactRouter.min.js"></script>-->
+    <!--&lt;!&ndash; Babel js&ndash;&gt;-->
+    <!--<script th:src="@{/bower_components/babel/browser.min.js}"></script>-->
 
-    <!--React-bootstrap-->
-    <script th:src="@{/bower_components/react-bootstrap/react-bootstrap.min.js}"></script>
+    <!--&lt;!&ndash;React-bootstrap&ndash;&gt;-->
+    <!--<script th:src="@{/bower_components/react-bootstrap/react-bootstrap.min.js}"></script>-->
 
 </head>
 
@@ -26,8 +26,10 @@
     <!--React component container-->
     <div id="container">
     </div>
+    <input type="hidden" id="empId" th:value="${empId}"/>
+    <input type="hidden" id="empName" th:value="${empName}"/>
 
-    <script  type="text/babel" th:src="@{/js/mainpage.js}"></script>
+    <script th:src="@{/built/bundle.js}"></script>
 
 </body>
 </html>

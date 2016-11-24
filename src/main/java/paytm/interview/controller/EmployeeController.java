@@ -24,6 +24,6 @@ public class EmployeeController {
         EmployeeDO empObj = (EmployeeDO) employeeService.getEmployeeByEmpId(empId);
         model.addAttribute("empId",empObj.getEmpId());
         model.addAttribute("empName",empObj.getLastName()+","+empObj.getFirstName());
-        return "employee";
+        return "main";
     }
 }

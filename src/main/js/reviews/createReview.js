@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import {Modal as RbsModal} from 'react-bootstrap';
-import {FormGroup} from 'react-bootstrap';
-import {FormControl} from 'react-bootstrap';
-import {ControlLabel} from 'react-bootstrap';
-import {Button as RbsButton} from 'react-bootstrap';
+import {Modal as RbsModal,
+    FormGroup,FormControl,
+    ControlLabel,Button as RbsButton} from 'react-bootstrap';
 
 const CreateReviewModal = React.createClass({
 

@@ -16,11 +16,12 @@ var App = React.createClass({
                 <nav className="navbar navbar-default">
                     <ul className="nav navbar-nav">
                         <li className="active"><Link to="/">Home</Link></li>
+
                         <li><Link to="/employees">Employees</Link></li>
                         <li><Link to="/reviews">Reviews</Link></li>
                     </ul>
                 </nav>
-                <div className="container">
+                <div className="reactContainer">
                     {this.props.children}
                 </div>
             </div>
